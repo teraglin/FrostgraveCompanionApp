@@ -1,16 +1,29 @@
+<script src="http://192.168.0.21:8097"></script>
+
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import * as characterData from "./utils/characterData.json"
+import * as savedSheetsData from "./utils/savedSheets.json"
+import * as initialState from "./utils/initialState.json"
+import LoadCharacters from './screens/LoadCharacters';
 
 export default function App() {
-  // const characterData = require('./utils/characterData.json')
-  const character = characterData.character
-  const apprentice = characterData.apprentice
-  const warband = characterData.warband
-  const unitCount = warband.length
-  const unitSpace = 10 - warband.length
+  const [character, setCharacter] = useState(initialState.character)
+  const [apprentice, setApprentice] = useState(initialState.apprentice)
+  const [warband, setWarband] = useState(initialState.warband)
+  const [unitCount, setUnitCount] = useState(initialState.warband.length)
+  const [unitSpace, setUnitSpace] = useState(10 - initialState.warband.length)
+  const [sheetView, setSheetView] = useState(false)
 
-  console.log(unitCount)
+  function loadSheet(data) {
+    console.log("fire")
+    if (data !== "new") {
+      setCharacter(data.character)
+      setApprentice(data.apprentice)
+      setWarband(data.warband)
+      setSheetView(true)
+    }
+  }
 
   function determinePrefix(object, stat) {
     if (stat === "fight" || stat === "shoot" || stat === "will") {
@@ -48,33 +61,52 @@ export default function App() {
     }
   }
 
+  useEffect(() => {
+    setUnitCount(warband.length)
+    setUnitSpace(10 - warband.length)
+  }, [warband])
+
+  const renderScreen = () => {
+    if (sheetView) {
+      return (
+        <>
+          <View style={styles.headingContainer}>
+            <Text style={styles.headingText}>
+              Frostgrave Companion App
+            </Text>
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.sectionHeading}>Wizard</Text>
+            <Text style={styles.description}>Name: {character.name}</Text>
+            <Text style={styles.description}>School: {character.school}</Text>
+            <Text style={styles.description}>Gold: {character.gold}</Text>
+            {renderStats(character)}
+            {character.apprentice && (
+              <>
+                <Text style={styles.sectionHeading}>Apprentice</Text>
+                <Text>Name: {apprentice.name}</Text>
+                {renderStats(apprentice)}
+              </>
+            )}
+            <Text style={styles.sectionHeading}>Warband</Text>
+            {renderWarband()}{renderEmptyWarband()}
+          </View>
+        </>
+      );
+    } else {
+      return (
+        <LoadCharacters data={savedSheetsData} initialState={initialState} loadSheet={loadSheet} />
+        // <Text>hello</Text>
+      )
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingText}>
-          Frostgrave Companion App
-        </Text>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.sectionHeading}>Wizard</Text>
-        <Text style={styles.description}>Name: {character.name}</Text>
-        <Text style={styles.description}>School: {character.school}</Text>
-        <Text style={styles.description}>Gold: {character.gold}</Text>
-        {renderStats(character)}
-        {character.apprentice && (
-          <>
-            <Text style={styles.sectionHeading}>Apprentice</Text>
-            <Text>Name: {apprentice.name}</Text>
-            {renderStats(apprentice)}
-          </>
-        )}
-        <Text style={styles.sectionHeading}>Warband</Text>
-        {renderWarband()}
-        {renderEmptyWarband()}
-      </View>
+      {renderScreen()}
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
