@@ -1,0 +1,84 @@
+{
+  "character": {
+    "name": "Mr Wizard",
+    "school": "Summoner",
+    "gold": 200,
+    "experience": 0,
+    "apprentice": true,
+    "stats": {
+      "move": 6,
+      "fight": 2,
+      "shoot": 0,
+      "armour": 10,
+      "will": 4,
+      "health": 14
+    },
+    "currentHealth": 8,
+    "spells": ["littlePoo", "bigPoo", "mediumPoo"],
+    "notes": "Here are some additional notes",
+    "items": []
+  },
+  "apprentice": {
+    "name": "Apprentice",
+    "experience": 0,
+    "stats": {
+      "move": 6,
+      "fight": 0,
+      "shoot": 0,
+      "armour": 10,
+      "will": 2,
+      "health": 12
+    },
+    "currentHealth": 8,
+    "spells": ["littlePoo", "mediumPoo"],
+    "notes": "Here are some additional notes",
+    "items": []
+  },
+  "warband": [
+    {
+      "name": "Thug",
+      "class": "thug",
+      "cost": 0,
+      "stats": {
+        "move": 6,
+        "fight": 2,
+        "shoot": 0,
+        "armour": 10,
+        "will": -1,
+        "health": 10
+      },
+      "items": ["handWeapon"],
+      "currentHealth": 10
+    },
+    {
+      "name": "Thief",
+      "class": "thief",
+      "cost": 0,
+      "stats": {
+        "move": 7,
+        "fight": 1,
+        "shoot": 0,
+        "armour": 10,
+        "will": 0,
+        "health": 10
+      },
+      "items": ["dagger"],
+      "currentHealth": 10
+    },
+    {
+      "name": "Man-at-Arms",
+      "class": "manAtArms",
+      "cost": 75,
+      "stats": {
+        "move": 6,
+        "fight": 3,
+        "shoot": 0,
+        "armour": 12,
+        "will": 1,
+        "health": 12
+      },
+      "items": ["handWeapon", "shield", "lightArmour"],
+      "currentHealth": 12
+    }
+  ]
+}
